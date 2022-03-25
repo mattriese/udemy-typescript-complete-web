@@ -3,9 +3,10 @@ interface UserProps {
   age?: number;
 }
 
-type Callback = () => {};
+type Callback = () => void;
 
 export class User {
+    // [key: string] is how we say that we don't know what the property name is, but we know it's a string
   events: { [key: string]: Callback[] } = {};
   constructor(private data: UserProps) {}
 
@@ -20,7 +21,12 @@ export class User {
     // this.data.age = update.age || this.data.age;
   }
 
-  on(eventName: string, callback: Callback) {}
+  /** Registers an event handler with this object, so other parts of the app know when something changes */
+  on(eventName: string, callback: Callback): void {
+    this.events[eventName] = this.events[eventName] || [];
+    this.events[eventName].push(callback);
+  }
 
+  /** triggers an event to tell other parts of the app that something has changed */
   trigger() {}
 }

@@ -129,7 +129,8 @@ var User =
 /** @class */
 function () {
   function User(data) {
-    this.data = data;
+    this.data = data; // [key: string] is how we say that we don't know what the property name is, but we know it's a string
+
     this.events = {};
   }
 
@@ -142,8 +143,15 @@ function () {
     Object.assign(this.data, update); // this.data.name = update.name || this.data.name;
     // this.data.age = update.age || this.data.age;
   };
+  /** Registers an event handler with this object, so other parts of the app know when something changes */
 
-  User.prototype.on = function (eventName, callback) {};
+
+  User.prototype.on = function (eventName, callback) {
+    this.events[eventName] = this.events[eventName] || [];
+    this.events[eventName].push(callback);
+  };
+  /** triggers an event to tell other parts of the app that something has changed */
+
 
   User.prototype.trigger = function () {};
 
@@ -164,12 +172,10 @@ var matt = new User_1.User({
   name: 'Matt',
   age: 38
 });
-console.log(matt.get('age'));
-matt.set({
-  age: 39
-});
-console.log(matt.get('age'));
-console.log(matt.get('name'));
+matt.on('change', function () {});
+matt.on('change', function () {});
+matt.on('blah', function () {});
+console.log('matt', matt);
 },{"./models/User":"src/models/User.ts"}],"../../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -198,7 +204,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60454" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55776" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
